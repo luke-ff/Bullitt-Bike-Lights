@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bullitt Lights</title>
+
+<style>
+    body {
+        font-family: system-ui, sans-serif;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #111;
+        color: #eee;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .card {
+        background: #222;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 13px;
+        margin: 5px 0;
+        border: 0;
+        border-radius: 9px;
+        font-size: 16px;
+        background: #444;
+        color: white;
+    }
+
+    button.active {
+        background: #087f5b;
+    }
+
+    .value {
+        font-size: 28px;
+        text-align: center;
+        margin: 8px 0;
+    }
+
+    .label {
+        color: #aaa;
+        font-size: 14px;
+    }
+
+    #effects {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🚲 Bullitt Lights</h1>
+
+<div class="card">
+    <div class="label">Effekt</div>
+    <div id="effects">
+        <button data-effect="0">Running</button>
+        <button data-effect="1">Rainbow</button>
+        <button data-effect="2">Wave</button>
+        <button data-effect="3">Scanner</button>
+        <button data-effect="4">Fire</button>
+        <button data-effect="5">Speed Color</button>
+        <button data-effect="6">Pulse</button>
+        <button data-effect="7">Solid</button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="label">Zustand</div>
+    <div class="value" id="state">---</div>
+
+    <div class="label">Geschwindigkeit</div>
+    <div class="value">
+        <span id="speed">0.0</span> km/h
+    </div>
+</div>
+
+<script>
+const buttons = document.querySelectorAll("[data-effect]");
+
+buttons.forEach(button => {
+    button.addEventListener("click", async () => {
+        const effect = button.dataset.effect;
+
+        await fetch(
+            "/api/effect?effect=" + encodeURIComponent(effect)
+        );
+
+        updateStatus();
+    });
+});
+
+async function updateStatus() {
+    try {
+        const response = await fetch(
+            "/api/status",
+            { cache: "no-store" }
+        );
+
+        const data = await response.json();
+
+        document.getElementById("state").textContent =
+            data.state;
+
+        document.getElementById("speed").textContent =
+            Number(data.speed).toFixed(1);
+
+        buttons.forEach(button => {
+            button.classList.toggle(
+                "active",
+                Number(button.dataset.effect) === data.effect
+            );
+        });
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+updateStatus();
+setInterval(updateStatus, 500);
+</script>
+
+</body>
+</html>
