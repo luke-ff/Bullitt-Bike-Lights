@@ -1,8 +1,8 @@
-BullittLights - ESP8266
+Bullitt-Bike-Lights - ESP8266
 
 Projektstruktur
 ---------------
-BullittLights.ino
+Bullitt-Bike-Lights.ino
 Controller.h
 WebServer.h
 WebServer.cpp
