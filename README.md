@@ -35,12 +35,11 @@ I've opted for a robust solution, as I will mount / unmount the system from time
 To protect Shimanos power outlet, I added a SP13 Connector (they are IP65).
 I packed everything into a IP65 rated housing. You'll have to add some cable outlets, too.
 
-## Used Arduino Libraries
+### Used Arduino Libraries
 - [FastLED](https://github.com/FastLED/FastLED/wiki/Overview)
 - ESP8266WiFi (ESP8266 Core)
 - ESP8266WebServer (ESP8266 Core)
 - LittleFS (ESP8266 Core)
-
 
 ### Amazon Shopping List:
 
@@ -54,5 +53,30 @@ I packed everything into a IP65 rated housing. You'll have to add some cable out
 - [DC 12V to 5V USB-C Step-down](https://www.amazon.de/gp/product/B0D1FVHC1C)
 - [DC 12V to 12V Converter](https://www.amazon.de/gp/product/B0B1F2VWLY)
 - [D1 ESP8266 Mini Board NodeMCU](https://www.amazon.de/gp/product/B0D66LXTTK)
+
+
+## Wiring
+Check arduiono source code for pin usage:
+ *   GPIO 5  - left
+ *   GPIO 4  - right
+ *   GPIO 14 - crank
+ *   GPIO 12 - reed
+ *   GPIO 13 - effect button
+
+## Configuration
+there are three different LED-Strips defined: cargo area left, cargo area rigth, crank area. 
+Length, virtual position and LED-Count are defined in the code:
+
+    constexpr uint16_t NUM_LEFT  = 60;    // 1m = 60 LEDS
+    constexpr uint16_t NUM_RIGHT = 60;
+    constexpr uint16_t NUM_CRANK = 27;
+    ... 
+    Segment segmentLeft  = { 0.00f, 1.00f, NUM_LEFT,  true };
+    Segment segmentRight = { 0.00f, 1.00f, NUM_RIGHT, true };
+    Segment segmentCrank = { 1.00f, 0.45f, NUM_CRANK, false };
+
+    constexpr float VIRTUAL_LENGTH_M = 1.45f; 
+
+If you change the length of your stripes, edit these lines (you may need to shorten segmentLeft and segmentRight to about 0.8m, as I have BullittX)
 
 
