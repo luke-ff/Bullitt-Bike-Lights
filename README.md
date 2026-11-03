@@ -31,6 +31,7 @@ you need cables for
 - Power 2x0.75mm2
 - LED Stripes 3x0.3mm2
 - Reed contact 2x0.02mm
+
 I've opted for a robust solution, as I will mount / unmount the system from time to time.
 To protect Shimanos power outlet, I added a SP13 Connector (they are IP65).
 I packed everything into a IP65 rated housing. You'll have to add some cable outlets, too.
